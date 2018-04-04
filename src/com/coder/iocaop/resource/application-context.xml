@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context">
+
+
+
+    <bean id="user" class="com.coder.iocaop.entity.User">
+        <!--  构造器法-->
+        <!--<constructor-arg type="int" value="123"></constructor-arg>
+        <constructor-arg type="java.lang.String" value="lh"></constructor-arg>-->
+        <!--set法-->
+        <property name="id" value="123" />
+        <property name="name" value="laowang" />
+
+        <property name="list" >
+            <list>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </list>
+        </property>
+
+        <property name="map">
+            <map>
+                <entry key="1" value="lh"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="fatherUser" class="com.coder.iocaop.entity.UserFather">
+        <property name="fatherName" value="lh" />
+        <property name="fatherUser" ref="user" />
+    </bean>
+
+
+    <!--测试包扫描-->
+    <context:component-scan base-package="com.coder.iocaop.**" /><!--ioc包下面的所有包以及子包，两个*代表包含子包-->
+
+    <!--自动代理--><!--测试UserAspect类-->
+    <!--<aop:aspectj-autoproxy/>-->
+
+    <bean id="logger" class="com.coder.iocaop.aop.Logger"></bean>
+    <aop:config>
+        <aop:aspect id="LogAspect" ref="logger">
+            <aop:around method="doLog" pointcut="execution(* com.coder.iocaop.service.*.*(..))"></aop:around>
+        </aop:aspect>
+    </aop:config>
+
+</beans>

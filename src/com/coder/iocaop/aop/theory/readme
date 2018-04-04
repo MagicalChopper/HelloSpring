@@ -1,0 +1,15 @@
+SpringAOP实现原理：
+1.jdk Proxy代理类
+必须实现接口。
+jdk Proxy代理类实现
+优势：使用反射创建，创建效率高
+
+2.cglib InvocationHandler
+ 基于类，不需要实现接口。
+ cglib实现，用的asm,asm是搞class字节码的，基于子类，继承。
+ 优势：执行效率高。
+ 用到的jar：
+ asm
+ asm-common
+ asm-util
+ cglib-nodep
